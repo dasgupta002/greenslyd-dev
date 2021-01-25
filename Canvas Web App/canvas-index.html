@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>Canvas Web App</title>
+<link rel="stylesheet" type = "text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel = "stylesheet" type = "text/css" href = "canvas-styles.css">
+<script type = "text/javascript" 
+        src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.min.js"></script>	
+</head>  
+<body>
+<div class = "app">
+<div class = "controls">
+<div class = "title">Sketch</div>
+<div class = "type">
+<input type = "radio" name = "pen-type" id = "pen-pencil" checked>
+<label for = "pen-pencil">
+<i class = "fa fa-pencil"></i>
+</label>
+<input type = "radio" name = "pen-type" id = "pen-brush">
+<label for = "pen-brush">
+<i class = "fa fa-paint-brush"></i>
+</label>
+</div>
+<div class = "size">
+<label for = "pen-size">Size</label>
+<input type = "range" id = "pen-size" min = "1" max = "50">
+</div>
+<div class = "color">
+<label for = "pen-color">Color</label>
+<input type = "color" id = "pen-color" value = "#000">
+</div>
+<div class = "actions">
+<button id = "reset-canvas">Reset</button>
+<button id = "save-canvas">Save</button>
+</div>
+</div>
+<div id = "canvas-wrapper"></div>
+</div>
+<script type = "text/javascript">
+function _(selector) {
+  return document.querySelector(selector);
+}
+function setup () {
+  let canvas = createCanvas(650, 600);
+  canvas.parent("canvas-wrapper");
+  background(255);
+}
+function mouseDragged () {
+  let type = _("#pen-pencil").checked ? "pencil" : "brush";
+  let size = parseInt(_("#pen-size").value);
+  let color = _("#pen-color").value;
+  fill(color);
+  stroke(color);
+  if(type == "pencil") {
+    line(pmouseX, pmouseY, mouseX, mouseY);
+  } else {
+    ellipse(mouseX, mouseY, size, size);
+  }
+}
+_("#reset-canvas").addEventListener("click", function () {
+  background(255);
+});
+_("#save-canvas").addEventListener("click", function () {
+  saveCanvas(canvas, "sketch", "png");
+});
+</script>
+</body>
+</html>
